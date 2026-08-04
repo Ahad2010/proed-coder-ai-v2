@@ -66,9 +66,14 @@ export default function Page() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: q }),
       });
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      const json: SearchResponse = await r.json();
-      setData(json);
+
+      const body = await r.json().catch(() => null);
+      if (!r.ok) {
+        const message = body?.error || `HTTP ${r.status}`;
+        throw new Error(message);
+      }
+
+      setData(body as SearchResponse);
     } catch (e: unknown) {
       setErr(e instanceof Error ? e.message : "Search failed");
     } finally {

@@ -105,8 +105,18 @@ export async function embed(text: string): Promise<number[]> {
   }
 
   if (provider === "hf-api") {
-    const rows = await hfApiEmbed([text]);
-    return rows[0];
+    try {
+      const rows = await hfApiEmbed([text]);
+      return rows[0];
+    } catch (error) {
+      console.warn(
+        "Hugging Face inference failed; falling back to local Xenova if available.",
+        error
+      );
+      const p = await getXenovaPipe();
+      const out = await p(text, { pooling: "mean", normalize: true });
+      return Array.from(out.data as Float32Array);
+    }
   }
 
   if (provider === "openai" && openai) {

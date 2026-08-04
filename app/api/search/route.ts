@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { classifyIntent } from "@/lib/llm";
+import { classifyIntent, type Intent } from "@/lib/llm";
 import { embed, toPgVector } from "@/lib/embeddings";
 
 // Transformers.js needs the Node runtime (not Edge) — it uses ONNX Runtime
@@ -11,40 +11,61 @@ export const dynamic = "force-dynamic";
 
 const Body = z.object({ query: z.string().min(2).max(500) });
 
+function jsonError(message: string, status = 500) {
+  return NextResponse.json({ error: message }, { status });
+}
+
+export async function GET() {
+  return jsonError("Use POST /api/search with a JSON body: { query: string }", 405);
+}
+
 export async function POST(req: NextRequest) {
   const t0 = Date.now();
-  const parsed = Body.safeParse(await req.json());
-  if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid body" }, { status: 400 });
+
+  let parsed;
+  try {
+    parsed = Body.parse(await req.json());
+  } catch (error) {
+    return jsonError("Invalid request body. Send JSON with a non-empty query.", 400);
   }
-  const { query } = parsed.data;
 
-  // 1. Classify intent (codes / query_form / policy)
-  const intent = await classifyIntent(query);
+  const { query } = parsed;
 
-  // 2. Track A — codes lookup via pgvector cosine search
+  let intent: Intent = "codes";
+  try {
+    intent = await classifyIntent(query);
+  } catch (error) {
+    console.error("Intent classification failed, defaulting to codes:", error);
+  }
+
   let results: unknown[] = [];
   if (intent === "codes") {
-    const vec = await embed(query);
-    const pg = toPgVector(vec);
-    // pgvector cosine distance operator `<=>` — lower is closer
-    results = await db.$queryRawUnsafe(
-      `SELECT id, code, "codeSystem", description, "isBillable",
-              "hccCategory", "hccWeight", "hedisMeasure",
-              "codingNotes", "sourceName", "sourceUrl",
-              1 - (embedding <=> $1::vector) AS similarity
-       FROM "MedicalCode"
-       WHERE embedding IS NOT NULL
-       ORDER BY embedding <=> $1::vector
-       LIMIT 10;`,
-      pg
-    );
+    try {
+      const vec = await embed(query);
+      const pg = toPgVector(vec);
+      results = await db.$queryRawUnsafe(
+        `SELECT id, code, "codeSystem", description, "isBillable",
+                "hccCategory", "hccWeight", "hedisMeasure",
+                "codingNotes", "sourceName", "sourceUrl",
+                1 - (embedding <=> $1::vector) AS similarity
+         FROM "MedicalCode"
+         WHERE embedding IS NOT NULL
+         ORDER BY embedding <=> $1::vector
+         LIMIT 10;`,
+        pg
+      );
+    } catch (error) {
+      console.error("Embedding or database search failed:", error);
+      return jsonError(
+        "Search failed because the embedding provider is not available. " +
+          "For local development, set EMBEDDING_PROVIDER=\"xenova\" and ensure your environment has access to the model or network.",
+        500
+      );
+    }
   }
-  // TODO Phase 4: intent === "query_form" and "policy" branches
 
-  // 3. Audit log (best-effort, don't block)
   db.auditLog
-    .create({ data: { action: "search", payload: { query, intent, resultCount: (results as unknown[]).length } } })
+    .create({ data: { action: "search", payload: { query, intent, resultCount: results.length } } })
     .catch(() => {});
 
   return NextResponse.json({

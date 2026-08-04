@@ -3,6 +3,11 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { NavTabs } from "./nav-tabs";
 
+// Force dynamic rendering app-wide. This avoids a Next.js 16 Turbopack bug
+// where static prerendering of the auto-generated /_not-found page crashes
+// with "Cannot read properties of null (reading 'useContext')" during build.
+export const dynamic = "force-dynamic";
+
 const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
