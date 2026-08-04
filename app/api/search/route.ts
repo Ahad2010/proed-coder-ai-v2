@@ -15,6 +15,21 @@ function jsonError(message: string, status = 500) {
   return NextResponse.json({ error: message }, { status });
 }
 
+async function searchByText(query: string): Promise<unknown[]> {
+  const likeQuery = `%${query}%`;
+  return db.$queryRawUnsafe<unknown[]>(
+    `SELECT id, code, "codeSystem", description, "isBillable",
+            "hccCategory", "hccWeight", "hedisMeasure",
+            "codingNotes", "sourceName", "sourceUrl",
+            NULL::float AS similarity
+     FROM "MedicalCode"
+     WHERE description ILIKE $1 OR code ILIKE $1 OR "sourceName" ILIKE $1
+     ORDER BY "isBillable" DESC, code
+     LIMIT 10;`,
+    likeQuery
+  );
+}
+
 export async function GET() {
   return jsonError("Use POST /api/search with a JSON body: { query: string }", 405);
 }
@@ -39,6 +54,8 @@ export async function POST(req: NextRequest) {
   }
 
   let results: unknown[] = [];
+  let warning: string | null = null;
+
   if (intent === "codes") {
     try {
       const vec = await embed(query);
@@ -55,12 +72,10 @@ export async function POST(req: NextRequest) {
         pg
       );
     } catch (error) {
-      console.error("Embedding or database search failed:", error);
-      return jsonError(
-        "Search failed because the embedding provider is not available. " +
-          "For local development, set EMBEDDING_PROVIDER=\"xenova\" and ensure your environment has access to the model or network.",
-        500
-      );
+      console.error("Embedding search failed, falling back to text search:", error);
+      results = await searchByText(query);
+      warning =
+        "Search completed using plain-text DB lookup because the embedding provider was unavailable.";
     }
   }
 
@@ -72,5 +87,6 @@ export async function POST(req: NextRequest) {
     intent,
     results,
     latencyMs: Date.now() - t0,
+    warning,
   });
 }
