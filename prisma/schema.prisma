@@ -1,0 +1,179 @@
+// ProEd Coder AI — Prisma schema
+// Phase 1: users, codes (ICD-10/HCPCS/CPT), policy docs, query forms, audit log
+// Vector columns are added via raw SQL migration since Prisma doesn't yet
+// have first-class pgvector support. See prisma/migrations/README.md
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- AUTH (NextAuth v5) ----------
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  emailVerified DateTime?
+  image         String?
+  role          UserRole  @default(CODER)
+  createdAt     DateTime  @default(now())
+
+  accounts  Account[]
+  sessions  Session[]
+  auditLogs AuditLog[]
+  queryForms QueryForm[]
+}
+
+enum UserRole {
+  ADMIN
+  CODER
+  AUDITOR
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ---------- MEDICAL CODES (Track A) ----------
+
+model MedicalCode {
+  id           String     @id @default(cuid())
+  code         String     @unique  // e.g. "E11.40", "99213", "A4595"
+  codeSystem   CodeSystem
+  description  String     @db.Text
+  isBillable   Boolean    @default(true)
+  effectiveFrom DateTime?
+  effectiveTo   DateTime?
+  hccCategory  String?    // e.g. "HCC 18"
+  hccWeight    Float?     // e.g. 0.302
+  hedisMeasure String?    // e.g. "PPC"
+  codingNotes  String?    @db.Text
+  sourceUrl    String?
+  sourceName   String?    // "CMS.gov", "AMA", "ICD10Data"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // pgvector column — declared as Unsupported so Prisma won't touch it.
+  // Managed by prisma/migrations/0001_pgvector_columns.sql
+  embedding Unsupported("vector(384)")?
+
+  @@index([codeSystem])
+  @@index([hccCategory])
+  @@index([hedisMeasure])
+}
+
+enum CodeSystem {
+  ICD10CM
+  HCPCS
+  CPT
+}
+
+// ---------- POLICY DOCS & FORMS (Track B) ----------
+
+model PolicyDocument {
+  id           String   @id @default(cuid())
+  title        String
+  sourceName   String   // "CMS", "NCQA", "HHS", "Medicaid", "eClinicalWorks"
+  sourceUrl    String
+  docType      String   // "policy", "form", "guideline", "measure_spec"
+  content      String   @db.Text
+  effectiveDate DateTime?
+  ingestedAt   DateTime @default(now())
+
+  // pgvector column — managed by SQL migration
+  embedding Unsupported("vector(384)")?
+
+  chunks PolicyChunk[]
+
+  @@index([sourceName])
+  @@index([docType])
+}
+
+model PolicyChunk {
+  id             String @id @default(cuid())
+  policyDocId    String
+  chunkIndex     Int
+  content        String @db.Text
+
+  // pgvector column — managed by SQL migration
+  embedding Unsupported("vector(384)")?
+
+  policyDoc PolicyDocument @relation(fields: [policyDocId], references: [id], onDelete: Cascade)
+
+  @@index([policyDocId])
+}
+
+model QueryForm {
+  id           String   @id @default(cuid())
+  userId       String?
+  scenario     String   @db.Text  // coder's input scenario
+  draft        String   @db.Text  // AI-generated form
+  citations    Json     @default("[]")
+  status       QueryFormStatus @default(DRAFT)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+enum QueryFormStatus {
+  DRAFT
+  APPROVED
+  SENT
+  ARCHIVED
+}
+
+// ---------- AUDIT LOG (HIPAA) ----------
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String   // "search", "generate_form", "export", "login"
+  payload   Json
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}

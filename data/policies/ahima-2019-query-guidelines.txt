@@ -1,0 +1,80 @@
+AHIMA and ACDIS Guidelines for Achieving a Compliant Query Practice (2019 Update)
+
+Introduction
+
+Physician queries are a fundamental tool for medical coders and clinical documentation improvement (CDI) specialists to obtain clarification when the medical record documentation is unclear, incomplete, ambiguous, or conflicting. A well-crafted query supports accurate coding, quality reporting, and reimbursement while preserving the integrity of the medical record.
+
+When to Query
+
+A query is appropriate whenever one of the following conditions exists in the documentation:
+
+1. Conflicting diagnoses or clinical findings — for example, a diagnosis of "diabetes" without further specification alongside laboratory results that suggest a particular type or severity.
+2. Incomplete documentation — a condition mentioned without required specificity such as acuity (acute vs chronic), laterality (left vs right), or severity (mild, moderate, severe).
+3. Missing cause-and-effect relationships — a symptom documented without linkage to an underlying condition where such linkage would affect coding.
+4. Clinical evidence supports a condition not documented — laboratory or radiology findings clearly indicate a diagnosis that has not been recorded in the physician's own words.
+5. Ambiguous documentation — terminology such as "borderline," "suspected," "possible," or "rule out" that requires clarification for accurate coding.
+
+Non-Leading Query Principles
+
+Every query must be non-leading. A leading query is one that suggests a specific diagnosis, procedure, or answer to the physician. Non-leading queries present clinical evidence and reasonable options and allow the physician to select the correct response based on their clinical judgment.
+
+Examples of leading vs non-leading:
+- Leading: "Please confirm that the patient's heart failure is chronic systolic in nature."
+- Non-leading: "Please specify the type of heart failure documented: acute systolic, chronic systolic, acute diastolic, chronic diastolic, combined, or unable to determine from documentation."
+
+The physician's response must always be based on clinical judgment and the medical record, not on suggestion from the coder.
+
+Multi-Choice Format Requirements
+
+Compliant queries provide multiple clinically reasonable options. Every multi-choice query must include:
+
+- A minimum of 3 clinically reasonable options where appropriate
+- An "Other (please specify)" option to allow the physician to document a response not listed
+- An "Unable to determine from documentation" option — this is required in every multi-choice query to allow the physician to indicate that the documentation cannot support any specific answer
+
+The order of options should not imply preference or expectation.
+
+Clinical Indicator Citation
+
+Compliant queries must cite the specific clinical indicators from the medical record that prompted the query. This grounds the query in the documentation and prevents the appearance of coaching. Clinical indicators may include:
+
+- Laboratory values (e.g., HbA1c, BNP, creatinine, eGFR)
+- Vital signs and physical findings
+- Medications currently prescribed
+- Diagnostic imaging findings
+- Other documented symptoms or history
+
+Introduction of clinical facts not present in the medical record is prohibited.
+
+Query Format Standards
+
+Whether written, electronic, or verbal, queries should follow a consistent structure:
+
+1. Header identifying the patient (MRN, date of service) and the responding physician
+2. A brief statement of what is currently documented
+3. A citation of the specific clinical indicators supporting the query
+4. The specific clarification requested, in multi-choice format
+5. Response instructions and coder identification with credentials
+
+Response Documentation
+
+Physician responses to queries become part of the permanent medical record. Physicians should respond in their own words within the medical record itself — via addendum, progress note, or discharge summary — not solely on the query form. The query form serves as documentation of the coding process but is not a substitute for physician documentation.
+
+Compliance and Audit Trail
+
+Healthcare organizations should maintain records of all queries issued, the physician's response, and the resulting coding decisions. This audit trail supports compliance with the False Claims Act, Recovery Audit Contractor (RAC) reviews, and CMS Risk Adjustment Data Validation (RADV) audits.
+
+Retention requirements typically require these records to be maintained for a minimum of six years, consistent with HIPAA and CMS requirements.
+
+Prohibited Practices
+
+The following practices are prohibited under AHIMA/ACDIS guidelines:
+
+- Queries that suggest a specific diagnosis or answer
+- Queries that offer only one option (yes/no queries without alternatives)
+- Queries that omit the "Unable to determine" option
+- Queries that introduce clinical facts not in the medical record
+- Queries used to increase reimbursement without a legitimate documentation clarification need
+- Post-discharge queries that would alter the discharge summary without physician sign-off
+
+Adherence to these principles protects the integrity of the medical record, the coder, the physician, and the organization from compliance risk while ensuring accurate coding for reimbursement, quality reporting, and risk adjustment.

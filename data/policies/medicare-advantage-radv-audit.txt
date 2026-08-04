@@ -1,0 +1,78 @@
+CMS Risk Adjustment Data Validation (RADV) Audit — Documentation Standards
+
+Purpose
+
+The Risk Adjustment Data Validation (RADV) audit is CMS's primary mechanism for verifying that diagnoses submitted by Medicare Advantage organizations for risk-adjusted payment are supported by the underlying medical record. RADV findings can result in payment recoupment, extrapolation across a plan's population, and, in cases of persistent noncompliance, referral for potential False Claims Act enforcement.
+
+Audit Sample and Scope
+
+CMS selects a stratified random sample of enrollees from each audited contract year. For each sampled enrollee, CMS requests medical records supporting a specific subset of the HCC-generating diagnoses that were submitted for that beneficiary during the payment year under audit. Health plans have a limited window, typically 25 weeks, to compile and submit the requested records.
+
+Documentation Requirements
+
+For each diagnosis to be validated, the medical record must include:
+
+- A signed and dated note by a qualified physician or eligible provider
+- Documentation within the payment year being audited, from January 1 through December 31
+- Clinical indicators supporting the diagnosis
+- Evidence of monitoring, evaluation, assessment, or treatment (MEAT criteria)
+- Consistency between the diagnosis code submitted and the clinical narrative
+
+Records that lack any of these elements are considered unsupported and result in a payment recovery for the associated diagnosis.
+
+Common Reasons for Diagnosis Rejection
+
+The most frequent reasons CMS auditors reject submitted diagnoses include:
+
+- Diagnosis listed only in the problem list without corresponding note or assessment
+- Unsigned progress notes or notes signed after the audit request was received
+- Signed notes from a non-eligible provider such as a scribe or medical assistant
+- Diagnosis based on prior encounter or history without current-year re-documentation
+- Clinical evidence supporting a less severe condition than coded
+- Copy-paste documentation where the note does not reflect the actual current visit
+- Illegible handwriting on paper records
+- Missing dates or dates outside the audit window
+
+The Role of Physician Queries
+
+Physician queries submitted during the coding process are reviewed as part of the audit trail. CMS auditors will examine:
+
+- Whether the query itself was compliant (non-leading, multi-choice, cited clinical indicators)
+- Whether the physician response was documented within the medical record proper, not just on the query form
+- Whether the response was consistent with the surrounding clinical documentation
+- The date of the query and response relative to the date of service
+
+Queries that appear to have influenced the physician toward a specific diagnosis, or queries that added clinical facts not present in the record, may cause the associated diagnosis to be rejected and can raise broader concerns about the plan's coding practices.
+
+Retrospective Chart Review Programs
+
+Many Medicare Advantage organizations engage third-party firms to perform retrospective chart review, capturing HCC-eligible diagnoses that were not initially submitted at the time of service. These programs are subject to particular scrutiny under RADV because they can appear to be reimbursement-optimization exercises rather than legitimate clinical documentation activities.
+
+Best practices for retrospective chart review programs include:
+
+- Reviewing only current-year records within the applicable payment window
+- Using only board-certified coders or CDI specialists for chart review
+- Documenting all diagnoses identified with the specific location in the medical record
+- Issuing compliant queries when documentation is ambiguous
+- Maintaining detailed audit trails of all coding decisions and query correspondence
+
+Extrapolation
+
+Since the RADV audit ruling implementation in 2023, CMS has authority to extrapolate audit findings from the sampled beneficiaries to the plan's entire risk-adjusted population. This means a small sample of documentation gaps can result in millions of dollars in recoupment across a full contract population. Plans have strong financial motivation to ensure documentation compliance from the point of care forward, rather than relying solely on retrospective review.
+
+Coding Vendor Accountability
+
+Health plans that engage third-party coding vendors, including CDI firms and audit companies, remain ultimately responsible for the accuracy of the diagnoses they submit. Vendor contracts typically include representations and warranties about coding compliance, and vendors performing chart review are expected to maintain the same documentation standards CMS applies to the plan itself.
+
+ProEd Consulting and Staffing, as a coding services vendor for Medicare Advantage plans, IPAs, and health plans, is directly subject to these standards when performing HCC audits, chart review, and query practice on behalf of clients.
+
+Implications for Query Practice
+
+The RADV audit environment requires that every physician query issued by a coding vendor be defensible under audit. This means:
+
+- Every query must follow AHIMA/ACDIS 2019 compliance standards
+- Every query and its response must be preserved in an auditable format for at least six years
+- Query language must never appear to lead the physician toward a specific diagnosis or code
+- Clinical indicators cited in queries must be traceable to specific documentation in the medical record
+
+An AI-assisted query drafting tool, such as this system, that automatically encodes these compliance principles reduces the risk of non-compliant query language reaching a physician and helps establish a consistent, defensible audit trail.

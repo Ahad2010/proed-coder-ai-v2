@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+
+body {
+  @apply bg-paper text-ink antialiased;
+  background-image:
+    linear-gradient(to bottom, rgba(18, 33, 29, 0.025) 1px, transparent 1px);
+  background-size: 100% 2.25rem;
+}
+
+::selection { @apply bg-amber-100 text-ink; }
+
+@layer components {
+  /* Uppercase tracked mono label — used as an "eyebrow" / field label throughout */
+  .label-eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-label text-ink-faint;
+  }
+
+  /* Ledger-style card: paper panel with a hairline border and soft shadow */
+  .ledger-card {
+    @apply rounded-md border border-line bg-paper-panel shadow-[0_1px_2px_rgba(18,33,29,0.06)];
+  }
+
+  .field-input {
+    @apply w-full rounded-md border border-line bg-paper-panel px-4 py-3 text-sm text-ink placeholder:text-ink-faint shadow-sm transition focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md bg-brand-600 px-5 py-3 text-sm font-medium text-paper-panel transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-md border border-line bg-paper-panel px-3 py-1.5 text-xs font-medium text-ink-soft transition hover:border-brand-200 hover:text-brand-700 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded px-2 py-0.5 text-[11px] font-mono font-medium tracking-tight;
+  }
+}

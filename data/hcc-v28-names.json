@@ -1,0 +1,19 @@
+{
+  "_note": "Populate this file with official V28 category names from the CMS Rate Announcement.",
+  "_format": "\"37\": \"Diabetes with Chronic Complications\", \"85\": \"Heart Failure\", ...",
+  "_source": "Search for 'CMS 2026 Rate Announcement Attachment II' for the definitive list of 115 V28 HCC category names.",
+  "_examples_seed": {
+    "22": "Diabetes with Severe Acute Complications",
+    "37": "Diabetes with Chronic Complications",
+    "85": "Heart Failure",
+    "88": "Angina Pectoris",
+    "92": "Atrial Fibrillation and Flutter",
+    "96": "Ischemic Heart Disease",
+    "108": "Chronic Obstructive Pulmonary Disease",
+    "136": "Chronic Kidney Disease, Stage 5",
+    "138": "Chronic Kidney Disease, Severe (Stage 4)",
+    "186": "Major Organ Transplant or Replacement Status",
+    "223": "Cardiomyopathy",
+    "227": "Cardiomyopathy/Myocarditis"
+  }
+}

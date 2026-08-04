@@ -1,0 +1,72 @@
+NCQA HEDIS Measurement Year 2026 — Measure Overview and Compliance Standards
+
+Background
+
+The Healthcare Effectiveness Data and Information Set (HEDIS) is administered by the National Committee for Quality Assurance (NCQA) and is used by more than 90 percent of American health plans to measure quality of care. HEDIS measures are used for accreditation, Medicare Advantage Star Ratings, state Medicaid quality programs, and commercial payer quality reporting. Accurate coding directly affects HEDIS measure compliance because most measures rely on administrative claims data supplemented by chart review for hybrid measures.
+
+MY 2026 Measurement Cycle
+
+Measurement Year 2026 covers services rendered from January 1 through December 31, 2026, with reporting due in June 2027. Health plans submit data using NCQA's Interactive Data Submission System (IDSS), and audit is conducted by NCQA-certified HEDIS Compliance Auditors.
+
+Major Measure Domains
+
+Effectiveness of Care measures include:
+
+- Comprehensive Diabetes Care (CDC), evaluating HbA1c testing and control, eye exam, and kidney health assessment for members with diabetes
+- Controlling High Blood Pressure (CBP), evaluating members with hypertension whose most recent blood pressure was adequately controlled
+- Statin Therapy for Patients with Cardiovascular Disease and Statin Use in Persons with Diabetes (SUPD)
+- Colorectal Cancer Screening (COL), Breast Cancer Screening (BCS), and Cervical Cancer Screening (CCS)
+- Childhood Immunization Status (CIS) and Immunizations for Adolescents (IMA)
+- Prenatal and Postpartum Care (PPC), and Timeliness of Prenatal Care
+
+Access and Availability of Care measures include Adults' Access to Preventive/Ambulatory Health Services (AAS) and Children and Adolescents' Access to Primary Care Practitioners (CAP).
+
+Utilization measures include Ambulatory Care (AMB), Frequency of Selected Procedures (FSP), and Inpatient Utilization.
+
+Value Sets and Coding
+
+Each HEDIS measure specifies a set of ICD-10-CM, CPT, HCPCS, and LOINC codes that establish eligibility, exclusions, and numerator compliance. These value sets are updated annually by NCQA. Coders and CDI staff must use the correct measurement year's value sets when auditing charts or performing gap closure.
+
+For MY 2026, notable changes include:
+
+- Expanded telehealth eligibility for several measures, including CDC and CBP
+- Updated exclusion criteria for members with palliative care or hospice status
+- New codes added for continuous glucose monitor supplies and remote patient monitoring
+- Changes to the denominator specifications for several diabetes-related measures to align with clinical guidelines
+
+Hybrid vs Administrative Measures
+
+Some measures are reported using only administrative claims data, while others allow a hybrid methodology combining claims with a systematic random sample of chart abstraction. Hybrid measures such as CDC and CBP typically show higher compliance rates because chart abstraction can capture services documented but not billed, or evidence of control (such as blood pressure readings) that does not appear on claims.
+
+Chart Abstraction Standards
+
+For hybrid measures, chart abstraction must follow NCQA's Value Set Directory and technical specifications. Auditors will disallow chart abstraction findings that:
+
+- Cannot be tied to a specific date of service within the measurement window
+- Rely on secondary documentation rather than the physician or clinical staff record
+- Are documented outside the medical record proper (for example, appointment scheduling notes)
+- Show evidence of a service without documentation of the specific numerator requirement
+
+Common Gap Closure Opportunities
+
+The most common gap closure opportunities identified through chart audit include:
+
+- HbA1c testing documented in labs but not linked to the correct patient encounter
+- Blood pressure readings documented in vitals but not carried through to the assessment
+- Colorectal cancer screening completed but coded incorrectly (for example, diagnostic vs screening colonoscopy)
+- Preventive visits coded as problem-focused visits, missing preventive value set codes
+- Immunizations administered in retail pharmacies or by other providers, not captured in plan claims
+
+Query Practice in HEDIS Auditing
+
+Physician queries in the HEDIS context are less common than in HCC coding but may be appropriate when documentation is ambiguous about whether a required service was actually performed. For example:
+
+- Colonoscopy documented without clarification of screening vs diagnostic intent
+- Diabetes eye exam documented as "eye exam performed" without specification of retinopathy screening
+- Mammography documented as "screening" without laterality clarification
+
+Compliant queries in this context follow the same AHIMA/ACDIS principles: non-leading, multi-choice, with clinical indicators cited from the medical record.
+
+Impact on Star Ratings
+
+For Medicare Advantage plans, HEDIS measures directly affect CMS Star Ratings, which in turn determine plan bonus payments and market visibility. A single percentage point improvement in HEDIS compliance can translate to significant financial impact for a plan. This is why plans invest heavily in HEDIS audit and gap closure services and why accurate, compliant coding practice is essential for both patient care quality and plan financial sustainability.

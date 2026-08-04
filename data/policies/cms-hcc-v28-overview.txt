@@ -1,0 +1,68 @@
+CMS-HCC Risk Adjustment Model Version 28 (V28) — Overview
+
+Purpose of the Model
+
+The CMS-HCC (Hierarchical Condition Categories) risk adjustment model is used by the Centers for Medicare and Medicaid Services to calibrate Medicare Advantage plan payments to reflect the expected medical cost of each enrolled beneficiary. Beneficiaries with more complex or severe conditions have a higher Risk Adjustment Factor (RAF), which translates into higher capitation payments to the Medicare Advantage organization. Accurate coding of chronic and severe conditions is therefore essential for both patient care and appropriate plan reimbursement.
+
+Transition from V24 to V28
+
+The V28 model, phased in beginning with Payment Year 2024 and reaching full implementation in Payment Year 2026, replaces the earlier V24 model. Key changes in V28 include:
+
+- Restructured category numbering. HCC numbers have been reassigned; V22, V24, and V28 use different numbering systems and cannot be directly compared without a crosswalk.
+- Increased granularity in certain condition categories, particularly for diabetes complications, chronic kidney disease staging, and heart failure subtypes.
+- Removal of certain conditions from risk adjustment eligibility, most notably some codes previously mapping to HCC categories for mild depression, morbid obesity without complications, and certain protein-calorie malnutrition codes.
+- Refined coefficient structure that better differentiates severe from moderate presentations of chronic disease.
+
+Payment Year 2026 uses a blend of 33 percent V24 and 67 percent V28 for the majority of beneficiaries, transitioning to 100 percent V28 for Payment Year 2027.
+
+Documentation Requirements
+
+For a diagnosis to contribute to the risk score, it must meet MEAT criteria in the medical record for the calendar year:
+
+- Monitored — the physician is monitoring the condition through examination, testing, or observation
+- Evaluated — clinical findings are documented that support the diagnosis
+- Assessed — a specific assessment of the condition is present in the physician's note
+- Treated — treatment plan, medication, or referral is documented
+
+A diagnosis code entered in the problem list without corresponding MEAT documentation within the payment year does not qualify for risk adjustment. Chart audits during RADV reviews specifically look for MEAT compliance.
+
+Chronic vs Acute Conditions
+
+Chronic conditions must be re-documented and reassessed each calendar year to contribute to the current year's risk score. There is no "carry-over" from prior years for coding purposes. This annual reassessment requirement is a common source of missed HCC opportunities and a frequent focus of physician query workflows.
+
+Specificity Requirements
+
+Vague or nonspecific documentation reduces the accuracy of risk adjustment. Common areas requiring greater specificity include:
+
+- Diabetes: type (Type 1, Type 2, drug-induced, secondary), control status, and specific complications (nephropathy, retinopathy, neuropathy, circulatory, other)
+- Chronic Kidney Disease: stage (1 through 5, or ESRD), and cause where possible
+- Heart Failure: acute vs chronic, systolic vs diastolic vs combined, and preserved vs reduced ejection fraction
+- Chronic Obstructive Pulmonary Disease: with or without acute exacerbation, with or without lower respiratory infection
+- Depression: severity (mild, moderate, severe), recurrent vs single episode, with or without psychotic features
+
+These specificity gaps are the most common triggers for physician queries in HCC-focused CDI programs.
+
+Interaction with Physician Queries
+
+Compliant physician queries directly support HCC risk adjustment accuracy by clarifying documentation ambiguity. However, queries must remain non-leading — the coder cannot suggest that a more specific diagnosis exists solely to increase the risk score. Query practice must be grounded in genuine documentation ambiguity, not in reimbursement optimization.
+
+CMS Risk Adjustment Data Validation (RADV) Audits
+
+CMS conducts periodic RADV audits to validate that the diagnoses submitted for risk adjustment are supported by the medical record. Audit findings that codes are not supported result in payment recoupment and potential extrapolation across a plan's entire population. Compliant, well-documented query practice is a primary defense in a RADV audit.
+
+Documentation should support each submitted diagnosis with:
+
+- A signed and dated physician note within the payment year
+- Clinical evidence meeting MEAT criteria
+- Query records (if applicable) showing the query was compliant, non-leading, and appropriately answered
+
+Impact on ProEd's Audit Practice
+
+For companies performing HCC audits on behalf of Medicare Advantage organizations, IPAs, and health plans, understanding V28 changes is essential. Common audit findings include:
+
+- Diagnoses coded from problem list without MEAT documentation
+- Overlooked HCC-eligible conditions where documentation supports a more specific code
+- Codes that no longer map to an HCC under V28 (former V24 codes)
+- Coefficient miscalculations due to model version confusion
+
+Accurate application of V28 rules protects both audit integrity and client trust.

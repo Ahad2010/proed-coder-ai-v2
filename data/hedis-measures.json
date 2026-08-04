@@ -1,0 +1,125 @@
+{
+  "_note": "HEDIS measure → codes mapping. Demo data curated by AXCEL from public HEDIS technical specifications. Replace with ProEd's NCQA-licensed value sets for production.",
+  "_source_swap": "For production, ingest NCQA's official HEDIS value sets XLSX (annual subscription). Update this file and re-run npm run seed:hedis.",
+  "_format": "Each measure has a code (short abbrev), full name, and lists of ICD-10/HCPCS/CPT codes that count toward the measure numerator or denominator.",
+  "measures": [
+    {
+      "code": "CDC",
+      "name": "Comprehensive Diabetes Care",
+      "description": "Diabetes management including HbA1c testing, eye exam, kidney health monitoring, and BP control for members with diabetes.",
+      "icd10": [
+        "E1010","E1021","E1022","E1029","E1040","E1041","E1042","E1043","E1044","E1049",
+        "E1051","E1052","E1059","E1065","E109",
+        "E1110","E1121","E1122","E1129","E1140","E1141","E1142","E1143","E1144","E1149",
+        "E1151","E1152","E1159","E1165","E1169","E118","E119",
+        "E1310","E1321","E1322","E1329","E1340","E1341","E1342","E1343","E1344","E1349"
+      ],
+      "hcpcs": [],
+      "cpt": ["83036","83037","82043","82044","82570","92002","92004","92012","92014","92225","92226","92227","92228","92229"]
+    },
+    {
+      "code": "CBP",
+      "name": "Controlling High Blood Pressure",
+      "description": "Members with hypertension whose blood pressure was adequately controlled (<140/90 mmHg).",
+      "icd10": ["I10","I110","I119","I120","I129","I130","I1310","I1311","I132","I15","I150","I151","I152","I158","I159"],
+      "hcpcs": [],
+      "cpt": ["99213","99214","99215","93000","93005","93010"]
+    },
+    {
+      "code": "BCS",
+      "name": "Breast Cancer Screening",
+      "description": "Women 50–74 who had a mammogram to screen for breast cancer.",
+      "icd10": ["Z1231"],
+      "hcpcs": ["G0202","G0204","G0206"],
+      "cpt": ["77067","77066","77065"]
+    },
+    {
+      "code": "CCS",
+      "name": "Cervical Cancer Screening",
+      "description": "Women 21–64 screened for cervical cancer via Pap smear or HPV co-test.",
+      "icd10": ["Z1231","Z1272","Z1279"],
+      "hcpcs": [],
+      "cpt": ["88141","88142","88143","88147","88148","88150","88152","88153","88154","88164","88165","88166","88167","88174","88175","87621","87624","87625"]
+    },
+    {
+      "code": "COL",
+      "name": "Colorectal Cancer Screening",
+      "description": "Adults 45–75 screened for colorectal cancer via colonoscopy, sigmoidoscopy, FIT, or FOBT.",
+      "icd10": ["Z1211","Z1212","Z1210"],
+      "hcpcs": ["G0104","G0105","G0106","G0121","G0328","G0464","G9147"],
+      "cpt": ["45378","45380","45381","45383","45384","45385","45388","82270","82274","44388","44389","44394"]
+    },
+    {
+      "code": "PPC",
+      "name": "Prenatal and Postpartum Care",
+      "description": "Deliveries that had a timely prenatal visit and a postpartum visit within recommended timeframes.",
+      "icd10": ["Z340","Z3400","Z3401","Z3402","Z3403","Z348","Z349","O0900","O0910","O0920","O0930"],
+      "hcpcs": [],
+      "cpt": ["59400","59410","59425","59426","59510","59515","59610","59614","59618","59622"]
+    },
+    {
+      "code": "CIS",
+      "name": "Childhood Immunization Status",
+      "description": "Children who received recommended vaccines by their 2nd birthday (DTaP, IPV, MMR, HiB, HepB, VZV, PCV, HepA, RV, flu).",
+      "icd10": [],
+      "hcpcs": [],
+      "cpt": ["90632","90670","90680","90681","90686","90696","90698","90700","90707","90710","90715","90716","90723","90732","90740","90743","90744","90746","90748"]
+    },
+    {
+      "code": "AAB",
+      "name": "Avoidance of Antibiotic Treatment for Acute Bronchitis",
+      "description": "Adults 18–64 with acute bronchitis who were NOT prescribed an antibiotic (lower is better).",
+      "icd10": ["J20","J200","J201","J202","J203","J204","J205","J206","J207","J208","J209"],
+      "hcpcs": [],
+      "cpt": []
+    },
+    {
+      "code": "MRP",
+      "name": "Medication Reconciliation Post-Discharge",
+      "description": "Discharges from inpatient stays where medication reconciliation was performed within 30 days.",
+      "icd10": [],
+      "hcpcs": ["G8427"],
+      "cpt": ["99483","99495","99496"]
+    },
+    {
+      "code": "TRC",
+      "name": "Transitions of Care",
+      "description": "Timely notification, medication reconciliation, follow-up visit, and patient engagement after inpatient discharge.",
+      "icd10": [],
+      "hcpcs": [],
+      "cpt": ["99495","99496"]
+    },
+    {
+      "code": "FUH",
+      "name": "Follow-up After Hospitalization for Mental Illness",
+      "description": "Discharges for mental health treatment with an outpatient follow-up visit within 7 and 30 days.",
+      "icd10": ["F200","F201","F202","F203","F205","F208","F209","F250","F251","F258","F259","F310","F3110","F3111","F3112","F3113","F3114","F320","F321","F322","F329","F330","F331","F332","F339","F400","F401","F410"],
+      "hcpcs": [],
+      "cpt": ["90791","90792","90832","90834","90837","90838","90846","90847","90853"]
+    },
+    {
+      "code": "AMR",
+      "name": "Asthma Medication Ratio",
+      "description": "Members with persistent asthma whose asthma controller-to-total-medication ratio is 0.50 or higher.",
+      "icd10": ["J4520","J4521","J4522","J4530","J4531","J4532","J4540","J4541","J4542","J4550","J4551","J4552","J45901","J45902","J45909","J45990","J45991","J45998"],
+      "hcpcs": [],
+      "cpt": []
+    },
+    {
+      "code": "SUPD",
+      "name": "Statin Use in Persons with Diabetes",
+      "description": "Adults 40–75 with diabetes who received a statin therapy prescription.",
+      "icd10": ["E1010","E1021","E109","E1110","E1121","E119","E1310","E1321","E139"],
+      "hcpcs": [],
+      "cpt": []
+    },
+    {
+      "code": "AAS",
+      "name": "Adults' Access to Preventive/Ambulatory Health Services",
+      "description": "Adults with an ambulatory or preventive care visit during the measurement year.",
+      "icd10": [],
+      "hcpcs": ["G0402","G0438","G0439"],
+      "cpt": ["99385","99386","99387","99395","99396","99397","99213","99214","99215"]
+    }
+  ]
+}
