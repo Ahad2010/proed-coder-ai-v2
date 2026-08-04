@@ -19,7 +19,6 @@ type SearchResponse = {
   intent: "codes" | "query_form" | "policy";
   results: CodeCard[];
   latencyMs: number;
-  warning?: string;
 };
 
 // RAF weights in practice cluster well under 3.0 — used as the meter's fixed scale
@@ -111,12 +110,6 @@ export default function Page() {
       {err && (
         <div className="rounded-md border border-brick-100 bg-brick-50 p-3 text-sm text-brick-700">
           {err}
-        </div>
-      )}
-
-      {data?.warning && (
-        <div className="rounded-md border border-amber-100 bg-amber-50 p-3 text-sm text-amber-700">
-          {data.warning}
         </div>
       )}
 

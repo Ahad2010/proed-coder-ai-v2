@@ -54,7 +54,6 @@ export async function POST(req: NextRequest) {
   }
 
   let results: unknown[] = [];
-  let warning: string | null = null;
 
   if (intent === "codes") {
     try {
@@ -74,8 +73,6 @@ export async function POST(req: NextRequest) {
     } catch (error) {
       console.error("Embedding search failed, falling back to text search:", error);
       results = await searchByText(query);
-      warning =
-        "Search completed using plain-text DB lookup because the embedding provider was unavailable.";
     }
   }
 
@@ -87,6 +84,5 @@ export async function POST(req: NextRequest) {
     intent,
     results,
     latencyMs: Date.now() - t0,
-    warning,
   });
 }
