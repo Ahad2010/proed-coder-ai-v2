@@ -3,14 +3,19 @@
  *
  * Switch providers with EMBEDDING_PROVIDER env var:
  *   EMBEDDING_PROVIDER="xenova"  → free, runs locally via @huggingface/transformers
+ *                                  (NOTE: requires native onnxruntime binary —
+ *                                  does NOT work on Vercel serverless functions)
+ *   EMBEDDING_PROVIDER="hf-api"  → free, same model, calls HF's remote Inference
+ *                                  API instead of running it locally — works on
+ *                                  Vercel. Requires HF_TOKEN env var.
  *   EMBEDDING_PROVIDER="openai"  → paid, use in production once scale demands it
  *
- * Both providers output 384-dim vectors:
- *   - Xenova bge-small-en-v1.5 → 384 native
- *   - OpenAI text-embedding-3-small → 384 via `dimensions` param
+ * All providers output 384-dim vectors:
+ *   - Xenova / hf-api bge-small-en-v1.5 → 384 native (same vector space)
+ *   - OpenAI text-embedding-3-small → 384 via `dimensions` param (different space)
  *
  * This means no DB schema changes when swapping providers — only a re-embed
- * batch job, since the two vector spaces are semantically different.
+ * batch job if switching to/from OpenAI, since that vector space differs.
  */
 
 import OpenAI from "openai";
@@ -21,6 +26,8 @@ const XENOVA_MODEL =
   process.env.XENOVA_EMBEDDING_MODEL ?? "Xenova/bge-small-en-v1.5";
 const OPENAI_MODEL =
   process.env.OPENAI_EMBEDDING_MODEL ?? "text-embedding-3-small";
+const HF_API_MODEL =
+  process.env.XENOVA_EMBEDDING_MODEL ?? "BAAI/bge-small-en-v1.5";
 
 /** Fixed dimension for both providers so the pgvector column never changes. */
 export const EMBEDDING_DIMENSIONS = 384;
@@ -32,12 +39,53 @@ let xenovaPipe: any = null;
 
 async function getXenovaPipe() {
   if (xenovaPipe) return xenovaPipe;
-  // Dynamic import so this heavy dep isn't loaded when using OpenAI provider.
-  const { pipeline } = await import("@huggingface/transformers");
+  // Dynamic import so this heavy dep isn't loaded when using other providers.
+  const { pipeline, env } = await import("@huggingface/transformers");
+
+  if (process.env.VERCEL) {
+    env.cacheDir = "/tmp/.cache";
+    env.allowLocalModels = false;
+  }
+
   xenovaPipe = await pipeline("feature-extraction", XENOVA_MODEL, {
     dtype: "fp32",
   });
   return xenovaPipe;
+}
+
+/**
+ * Calls Hugging Face's hosted Inference API for feature-extraction —
+ * same model/vector-space as Xenova, but no local native binary needed.
+ * Works fine on Vercel serverless functions.
+ */
+async function hfApiEmbed(texts: string[]): Promise<number[][]> {
+  const token = process.env.HF_TOKEN;
+  if (!token) {
+    throw new Error("HF_TOKEN env var is required for EMBEDDING_PROVIDER=hf-api");
+  }
+
+  const res = await fetch(
+    `https://api-inference.huggingface.co/pipeline/feature-extraction/${HF_API_MODEL}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ inputs: texts, options: { wait_for_model: true } }),
+    }
+  );
+
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`HF Inference API error (${res.status}): ${errText}`);
+  }
+
+  const data = await res.json();
+
+  // API returns either [dim] (single input) or [batch, dim] shape.
+  const rows: number[][] = Array.isArray(data[0]) ? data : [data];
+  return rows;
 }
 
 const openai =
@@ -56,6 +104,11 @@ export async function embed(text: string): Promise<number[]> {
     return Array.from(out.data as Float32Array);
   }
 
+  if (provider === "hf-api") {
+    const rows = await hfApiEmbed([text]);
+    return rows[0];
+  }
+
   if (provider === "openai" && openai) {
     const res = await openai.embeddings.create({
       model: OPENAI_MODEL,
@@ -71,9 +124,7 @@ export async function embed(text: string): Promise<number[]> {
 }
 
 /**
- * Batch-embed multiple texts. Both providers batch natively:
- *  - Xenova accepts an array and returns a stacked tensor (batch_size × dims)
- *  - OpenAI accepts an array in one API call
+ * Batch-embed multiple texts. All providers batch natively.
  */
 export async function embedBatch(texts: string[]): Promise<number[][]> {
   if (provider === "openai" && openai) {
@@ -83,6 +134,10 @@ export async function embedBatch(texts: string[]): Promise<number[][]> {
       dimensions: EMBEDDING_DIMENSIONS,
     });
     return res.data.map((d) => d.embedding);
+  }
+
+  if (provider === "hf-api") {
+    return hfApiEmbed(texts);
   }
 
   // Xenova — pass the array directly, then split the flat tensor into rows
@@ -104,4 +159,4 @@ export function toPgVector(v: number[]): string {
 
 export const CURRENT_PROVIDER = provider;
 export const CURRENT_MODEL =
-  provider === "openai" ? OPENAI_MODEL : XENOVA_MODEL;
+  provider === "openai" ? OPENAI_MODEL : provider === "hf-api" ? HF_API_MODEL : XENOVA_MODEL;
