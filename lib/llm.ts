@@ -17,15 +17,31 @@ export type Intent = "codes" | "query_form" | "policy";
 
 const provider = (process.env.LLM_PROVIDER ?? "groq").toLowerCase();
 
-const groq =
-  provider === "groq"
-    ? new Groq({ apiKey: process.env.GROQ_API_KEY })
-    : null;
+// Lazily instantiated so build-time module evaluation (Next.js "collecting
+// page data") never fails due to a missing API key — the key only needs to
+// exist when an actual request comes in at runtime.
+let groq: Groq | null = null;
+let anthropic: Anthropic | null = null;
 
-const anthropic =
-  provider === "anthropic"
-    ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-    : null;
+function getGroq(): Groq {
+  if (!groq) {
+    if (!process.env.GROQ_API_KEY) {
+      throw new Error("GROQ_API_KEY environment variable is missing or empty.");
+    }
+    groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+  }
+  return groq;
+}
+
+function getAnthropic(): Anthropic {
+  if (!anthropic) {
+    if (!process.env.ANTHROPIC_API_KEY) {
+      throw new Error("ANTHROPIC_API_KEY environment variable is missing or empty.");
+    }
+    anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  }
+  return anthropic;
+}
 
 const GROQ_MODEL = process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
 const CLAUDE_MODEL = process.env.CLAUDE_MODEL ?? "claude-sonnet-4-5-20250929";
@@ -43,8 +59,8 @@ const CLASSIFIER_SYSTEM =
 export async function classifyIntent(query: string): Promise<Intent> {
   let raw = "codes";
 
-  if (provider === "groq" && groq) {
-    const res = await groq.chat.completions.create({
+  if (provider === "groq") {
+    const res = await getGroq().chat.completions.create({
       model: GROQ_MODEL,
       messages: [
         { role: "system", content: CLASSIFIER_SYSTEM },
@@ -54,8 +70,8 @@ export async function classifyIntent(query: string): Promise<Intent> {
       temperature: 0,
     });
     raw = res.choices[0]?.message?.content?.trim().toLowerCase() ?? "codes";
-  } else if (provider === "anthropic" && anthropic) {
-    const res = await anthropic.messages.create({
+  } else if (provider === "anthropic") {
+    const res = await getAnthropic().messages.create({
       model: CLAUDE_MODEL,
       max_tokens: 16,
       system: CLASSIFIER_SYSTEM,
@@ -88,8 +104,8 @@ export async function chat(opts: {
   const maxTokens = opts.maxTokens ?? 1024;
   const temperature = opts.temperature ?? 0.2;
 
-  if (provider === "groq" && groq) {
-    const res = await groq.chat.completions.create({
+  if (provider === "groq") {
+    const res = await getGroq().chat.completions.create({
       model: GROQ_MODEL,
       messages: [
         { role: "system", content: opts.system },
@@ -101,8 +117,8 @@ export async function chat(opts: {
     return res.choices[0]?.message?.content ?? "";
   }
 
-  if (provider === "anthropic" && anthropic) {
-    const res = await anthropic.messages.create({
+  if (provider === "anthropic") {
+    const res = await getAnthropic().messages.create({
       model: CLAUDE_MODEL,
       max_tokens: maxTokens,
       temperature,
