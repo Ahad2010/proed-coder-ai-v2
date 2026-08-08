@@ -13,7 +13,7 @@ Two tracks in one app:
 ## Stack
 
 - Next.js 15 (App Router) + TypeScript + Tailwind
-- Postgres 16 + pgvector
+- Postgres 16 + vector
 - Prisma ORM
 - **LLM: Groq free tier (default) → Claude Sonnet (production swap)**
   - Provider is swappable via `LLM_PROVIDER` env var — no code changes
